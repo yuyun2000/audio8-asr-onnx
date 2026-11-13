@@ -1,0 +1,788 @@
+{
+  "audio_hidden.onnx": {
+    "file": "audio_hidden.onnx",
+    "size_bytes": 880238173,
+    "ir_version": 8,
+    "producer": "pytorch 2.8.0",
+    "opset": [
+      "ai.onnx:18"
+    ],
+    "num_nodes": 1108,
+    "num_initializers": 327,
+    "initializer_bytes": 879845376,
+    "inputs": [
+      {
+        "name": "audios",
+        "dtype": "float32",
+        "shape": [
+          1,
+          128,
+          3000
+        ]
+      },
+      {
+        "name": "audio_feature_lengths",
+        "dtype": "int64",
+        "shape": [
+          1
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "audio_hidden",
+        "dtype": "float32",
+        "shape": [
+          390,
+          1024
+        ]
+      },
+      {
+        "name": "audio_valid_mask",
+        "dtype": "int64",
+        "shape": [
+          390
+        ]
+      }
+    ],
+    "op_types": {
+      "Constant": 361,
+      "Gemm": 118,
+      "Transpose": 93,
+      "Add": 89,
+      "Mul": 89,
+      "Reshape": 75,
+      "Unsqueeze": 61,
+      "LayerNormalization": 42,
+      "MatMul": 37,
+      "Div": 31,
+      "Erf": 26,
+      "Slice": 19,
+      "Softmax": 18,
+      "Cast": 15,
+      "Sub": 6,
+      "And": 4,
+      "Gather": 3,
+      "Clip": 3,
+      "Conv": 3,
+      "Where": 3,
+      "Mod": 2,
+      "Less": 2,
+      "Equal": 2,
+      "Not": 2,
+      "Greater": 1,
+      "CumSum": 1,
+      "Xor": 1,
+      "Or": 1
+    },
+    "has_sin_cos": false,
+    "has_rope_like": false,
+    "node_sample": []
+  },
+  "lm_cache_prefill.onnx": {
+    "file": "lm_cache_prefill.onnx",
+    "size_bytes": 414144056,
+    "ir_version": 8,
+    "producer": "pytorch 2.8.0",
+    "opset": [
+      "ai.onnx:18"
+    ],
+    "num_nodes": 1318,
+    "num_initializers": 98,
+    "initializer_bytes": 414009344,
+    "inputs": [
+      {
+        "name": "inputs_embeds",
+        "dtype": "float32",
+        "shape": [
+          1,
+          "sequence",
+          512
+        ]
+      },
+      {
+        "name": "cache_position",
+        "dtype": "int64",
+        "shape": [
+          "sequence"
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "dtype": "float32",
+        "shape": [
+          "Castlogits_dim_0",
+          "Castlogits_dim_1",
+          151936
+        ]
+      },
+      {
+        "name": "key_delta_0",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_0_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_0_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_0",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_1",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_1_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_1_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_1",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_1_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_2",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_2_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_2_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_2",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_2_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_3",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_3_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_3_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_3",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_3_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_4",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_4_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_4_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_4",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_4_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_5",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_5_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_5_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_5",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_5_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_6",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_6_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_6_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_6",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_6_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      },
+      {
+        "name": "key_delta_7",
+        "dtype": "float32",
+        "shape": [
+          "Addkey_delta_7_dim_0",
+          8,
+          "sequence",
+          "Addkey_delta_7_dim_3"
+        ]
+      },
+      {
+        "name": "value_delta_7",
+        "dtype": "float32",
+        "shape": [
+          "Transposevalue_delta_7_dim_0",
+          8,
+          "sequence",
+          64
+        ]
+      }
+    ],
+    "op_types": {
+      "Constant": 454,
+      "Unsqueeze": 133,
+      "Mul": 93,
+      "Cast": 89,
+      "Add": 81,
+      "MatMul": 74,
+      "Concat": 66,
+      "Reshape": 41,
+      "Transpose": 41,
+      "Shape": 34,
+      "Gather": 33,
+      "Div": 33,
+      "Slice": 33,
+      "Pow": 17,
+      "ReduceMean": 17,
+      "Sqrt": 17,
+      "Neg": 16,
+      "ConstantOfShape": 9,
+      "Where": 9,
+      "Trilu": 8,
+      "Softmax": 8,
+      "Sigmoid": 8,
+      "Equal": 1,
+      "Expand": 1,
+      "Cos": 1,
+      "Sin": 1
+    },
+    "has_sin_cos": true,
+    "has_rope_like": true,
+    "node_sample": []
+  },
+  "lm_cache_decode.onnx": {
+    "file": "lm_cache_decode.onnx",
+    "size_bytes": 414145009,
+    "ir_version": 8,
+    "producer": "pytorch 2.8.0",
+    "opset": [
+      "ai.onnx:18"
+    ],
+    "num_nodes": 943,
+    "num_initializers": 98,
+    "initializer_bytes": 414009344,
+    "inputs": [
+      {
+        "name": "inputs_embeds",
+        "dtype": "float32",
+        "shape": [
+          1,
+          1,
+          512
+        ]
+      },
+      {
+        "name": "attention_mask",
+        "dtype": "int64",
+        "shape": [
+          1,
+          512
+        ]
+      },
+      {
+        "name": "cache_position",
+        "dtype": "int64",
+        "shape": [
+          1
+        ]
+      },
+      {
+        "name": "cache_key_0",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_0",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_1",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_1",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_2",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_2",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_3",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_3",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_4",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_4",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_5",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_5",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_6",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_6",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_key_7",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      },
+      {
+        "name": "cache_value_7",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          512,
+          64
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "dtype": "float32",
+        "shape": [
+          1,
+          1,
+          151936
+        ]
+      },
+      {
+        "name": "key_delta_0",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_0",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_1",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_1",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_2",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_2",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_3",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_3",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_4",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_4",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_5",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_5",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_6",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_6",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "key_delta_7",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      },
+      {
+        "name": "value_delta_7",
+        "dtype": "float32",
+        "shape": [
+          1,
+          8,
+          1,
+          64
+        ]
+      }
+    ],
+    "op_types": {
+      "Constant": 307,
+      "Mul": 101,
+      "Add": 81,
+      "MatMul": 74,
+      "Cast": 66,
+      "Transpose": 41,
+      "Reshape": 41,
+      "Slice": 33,
+      "Where": 17,
+      "Concat": 17,
+      "Pow": 17,
+      "ReduceMean": 17,
+      "Sqrt": 17,
+      "Div": 17,
+      "Neg": 16,
+      "ScatterElements": 16,
+      "ConstantOfShape": 9,
+      "Equal": 9,
+      "Expand": 9,
+      "LessOrEqual": 8,
+      "And": 8,
+      "Softmax": 8,
+      "Sigmoid": 8,
+      "Unsqueeze": 4,
+      "Cos": 1,
+      "Sin": 1
+    },
+    "has_sin_cos": true,
+    "has_rope_like": true,
+    "node_sample": []
+  },
+  "lm_logits.onnx": {
+    "file": "lm_logits.onnx",
+    "size_bytes": 414132615,
+    "ir_version": 8,
+    "producer": "pytorch 2.8.0",
+    "opset": [
+      "ai.onnx:18"
+    ],
+    "num_nodes": 1209,
+    "num_initializers": 98,
+    "initializer_bytes": 414009344,
+    "inputs": [
+      {
+        "name": "inputs_embeds",
+        "dtype": "float32",
+        "shape": [
+          1,
+          "sequence",
+          512
+        ]
+      },
+      {
+        "name": "attention_mask",
+        "dtype": "int64",
+        "shape": [
+          1,
+          "sequence"
+        ]
+      }
+    ],
+    "outputs": [
+      {
+        "name": "logits",
+        "dtype": "float32",
+        "shape": [
+          "Castlogits_dim_0",
+          151936
+        ]
+      }
+    ],
+    "op_types": {
+      "Constant": 403,
+      "Unsqueeze": 107,
+      "Mul": 93,
+      "Cast": 91,
+      "Add": 81,
+      "MatMul": 74,
+      "Concat": 53,
+      "Transpose": 41,
+      "Shape": 36,
+      "Gather": 36,
+      "Reshape": 35,
+      "Div": 33,
+      "Slice": 32,
+      "Pow": 17,
+      "ReduceMean": 17,
+      "Sqrt": 17,
+      "Neg": 16,
+      "Softmax": 8,
+      "Sigmoid": 8,
+      "ConstantOfShape": 2,
+      "Where": 2,
+      "Range": 1,
+      "Equal": 1,
+      "Expand": 1,
+      "Cos": 1,
+      "Sin": 1,
+      "Trilu": 1,
+      "And": 1
+    },
+    "has_sin_cos": true,
+    "has_rope_like": true,
+    "node_sample": []
+  }
+}

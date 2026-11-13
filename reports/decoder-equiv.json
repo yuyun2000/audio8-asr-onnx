@@ -1,0 +1,8 @@
+{
+ "prompt_len": 73,
+ "audio_tokens": 63,
+ "max_abs_diff": 0.0,
+ "cosine": 1.000001311302185,
+ "argmax_ref": 100346,
+ "argmax_ours": 100346
+}

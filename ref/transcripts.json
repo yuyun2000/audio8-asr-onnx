@@ -1,0 +1,311 @@
+{
+  "bundle_dir": "downloaded/onnx_release/model_bundle",
+  "engine": "CaptureEngine",
+  "engine_load_seconds": 1.0388657501898706,
+  "ort_version": "1.23.2",
+  "cache_precision": "fp32",
+  "audio_precision": "fp32",
+  "max_new_tokens": 128,
+  "runs": [
+    {
+      "wav": "downloaded/wavs/en.wav",
+      "bundle_text": "The tribal chief then called for the boy and presented him with fifty pieces of gold.",
+      "transformers_text": "The tribal chief then called for the boy and presented him with fifty pieces of gold.",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.8346,
+        "transformers_seconds": 0.294,
+        "audio_seconds": 7.152,
+        "engine_load_seconds": 1.039,
+        "bundle_rtf": 0.2565
+      },
+      "bundle": {
+        "bundle_raw": "The tribal chief then called for the boy and presented him with fifty pieces of gold.",
+        "generated_tokens": 17,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 89,
+        "runtime_token_count": 89,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 715,
+        "sample_count": 114432,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 93,
+        "prompt_len": 99,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 99,
+        "audio_token_count": 89,
+        "encoder_output_len": 93,
+        "mel_frames": 715,
+        "generated_tokens": 18,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "downloaded/wavs/zh.wav",
+      "bundle_text": "开放时间早上九点至下午五点。",
+      "transformers_text": "开放时间早上九点至下午五点。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.3726,
+        "transformers_seconds": 0.186,
+        "audio_seconds": 5.592,
+        "engine_load_seconds": 1.039,
+        "bundle_rtf": 0.2455
+      },
+      "bundle": {
+        "bundle_raw": "开放时间早上九点至下午五点。",
+        "generated_tokens": 10,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 70,
+        "runtime_token_count": 70,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 559,
+        "sample_count": 89472,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 73,
+        "prompt_len": 80,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 80,
+        "audio_token_count": 70,
+        "encoder_output_len": 73,
+        "mel_frames": 559,
+        "generated_tokens": 11,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "downloaded/wavs/0.wav",
+      "bundle_text": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+      "transformers_text": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.2758,
+        "transformers_seconds": 0.3108,
+        "audio_seconds": 10.053,
+        "engine_load_seconds": 1.039,
+        "bundle_rtf": 0.1269
+      },
+      "bundle": {
+        "bundle_raw": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+        "generated_tokens": 18,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 125,
+        "runtime_token_count": 125,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 1005,
+        "sample_count": 160850,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 131,
+        "prompt_len": 135,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 135,
+        "audio_token_count": 125,
+        "encoder_output_len": 131,
+        "mel_frames": 1005,
+        "generated_tokens": 19,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "downloaded/wavs/4.wav",
+      "bundle_text": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+      "transformers_text": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.5936,
+        "transformers_seconds": 1.0124,
+        "audio_seconds": 17.64,
+        "engine_load_seconds": 1.039,
+        "bundle_rtf": 0.0903
+      },
+      "bundle": {
+        "bundle_raw": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+        "generated_tokens": 54,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 220,
+        "runtime_token_count": 220,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 1764,
+        "sample_count": 282240,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 229,
+        "prompt_len": 230,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 230,
+        "audio_token_count": 220,
+        "encoder_output_len": 229,
+        "mel_frames": 1764,
+        "generated_tokens": 55,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "downloaded/wavs/en_zipformer1.wav",
+      "bundle_text": "God, as a direct consequence of the sin which man thus punished, had given her a lovely child, whose place was on that same dishonored bosom to connect her parent for ever with the race and descent of mortals, and to be finally a blessed soul in heaven.",
+      "transformers_text": "God, as a direct consequence of the sin which man thus punished, had given her a lovely child, whose place was on that same dishonored bosom to connect her parent for ever with the race and descent of mortals, and to be finally a blessed soul in heaven.",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.4313,
+        "transformers_seconds": 0.9532,
+        "audio_seconds": 16.715,
+        "engine_load_seconds": 1.039,
+        "bundle_rtf": 0.0856
+      },
+      "bundle": {
+        "bundle_raw": "God, as a direct consequence of the sin which man thus punished, had given her a lovely child, whose place was on that same dishonored bosom to connect her parent for ever with the race and descent of mortals, and to be finally a blessed soul in heaven.",
+        "generated_tokens": 57,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 209,
+        "runtime_token_count": 209,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 1671,
+        "sample_count": 267440,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 217,
+        "prompt_len": 219,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 219,
+        "audio_token_count": 209,
+        "encoder_output_len": 217,
+        "mel_frames": 1671,
+        "generated_tokens": 58,
+        "hit_eos": true
+      }
+    }
+  ]
+}

@@ -1,0 +1,311 @@
+{
+  "bundle_dir": "downloaded/onnx_release/model_bundle",
+  "engine": "CaptureEngine",
+  "engine_load_seconds": 1.2395273330621421,
+  "ort_version": "1.23.2",
+  "cache_precision": "fp32",
+  "audio_precision": "fp32",
+  "max_new_tokens": 128,
+  "runs": [
+    {
+      "wav": "wavs/0.wav",
+      "bundle_text": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+      "transformers_text": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.6226,
+        "transformers_seconds": 0.3197,
+        "audio_seconds": 10.053,
+        "engine_load_seconds": 1.24,
+        "bundle_rtf": 0.1614
+      },
+      "bundle": {
+        "bundle_raw": "昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。",
+        "generated_tokens": 18,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 125,
+        "runtime_token_count": 125,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 1005,
+        "sample_count": 160850,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 131,
+        "prompt_len": 135,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 135,
+        "audio_token_count": 125,
+        "encoder_output_len": 131,
+        "mel_frames": 1005,
+        "generated_tokens": 19,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "wavs/1.wav",
+      "bundle_text": "这是第一种。第二种叫呃，与os、os什么意思啊？",
+      "transformers_text": "这是第一种。第二种叫呃，与os、os什么意思啊？",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.2724,
+        "transformers_seconds": 0.2169,
+        "audio_seconds": 5.1,
+        "engine_load_seconds": 1.24,
+        "bundle_rtf": 0.2495
+      },
+      "bundle": {
+        "bundle_raw": "这是第一种。第二种叫呃，与os、os什么意思啊？",
+        "generated_tokens": 15,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 63,
+        "runtime_token_count": 63,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 510,
+        "sample_count": 81600,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 67,
+        "prompt_len": 73,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 73,
+        "audio_token_count": 63,
+        "encoder_output_len": 67,
+        "mel_frames": 510,
+        "generated_tokens": 16,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "wavs/2.wav",
+      "bundle_text": "就是平凡的啊，不认识接下来， frequent平凡的。",
+      "transformers_text": "就是平凡的啊，不认识接下来， frequent平凡的。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.2439,
+        "transformers_seconds": 0.1894,
+        "audio_seconds": 4.69,
+        "engine_load_seconds": 1.24,
+        "bundle_rtf": 0.2652
+      },
+      "bundle": {
+        "bundle_raw": "就是平凡的啊，不认识接下来， frequent平凡的。",
+        "generated_tokens": 12,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 58,
+        "runtime_token_count": 58,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 469,
+        "sample_count": 75040,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 61,
+        "prompt_len": 68,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 68,
+        "audio_token_count": 58,
+        "encoder_output_len": 61,
+        "mel_frames": 469,
+        "generated_tokens": 13,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "wavs/3.wav",
+      "bundle_text": "第一句是个什么时代？加了ES是一般现代式，对，我们把它时代一些商品。",
+      "transformers_text": "第一句是个什么时代？加了ES是一般现代式，对，我们把它时代一些商品。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.3553,
+        "transformers_seconds": 0.3102,
+        "audio_seconds": 8.83,
+        "engine_load_seconds": 1.24,
+        "bundle_rtf": 0.1535
+      },
+      "bundle": {
+        "bundle_raw": "第一句是个什么时代？加了ES是一般现代式，对，我们把它时代一些商品。",
+        "generated_tokens": 22,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 110,
+        "runtime_token_count": 110,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 883,
+        "sample_count": 141280,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 115,
+        "prompt_len": 120,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 120,
+        "audio_token_count": 110,
+        "encoder_output_len": 115,
+        "mel_frames": 883,
+        "generated_tokens": 23,
+        "hit_eos": true
+      }
+    },
+    {
+      "wav": "wavs/4.wav",
+      "bundle_text": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+      "transformers_text": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+      "match": true,
+      "timing": {
+        "bundle_seconds": 1.5215,
+        "transformers_seconds": 1.0407,
+        "audio_seconds": 17.64,
+        "engine_load_seconds": 1.24,
+        "bundle_rtf": 0.0863
+      },
+      "bundle": {
+        "bundle_raw": "嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。那用一般现在时是没有什么感情色彩的陈述一个事实。下一句话为什么要用现在进行时？他的意思并不是说说他现在正在教他的。",
+        "generated_tokens": 54,
+        "hit_stop": true,
+        "stop_token_id": 151645,
+        "audio_token_count": 220,
+        "runtime_token_count": 220,
+        "mel_shape": [
+          1,
+          128,
+          3000
+        ],
+        "encoder_feature_len": 1764,
+        "sample_count": 282240,
+        "audio_hidden_shape": [
+          390,
+          1024
+        ],
+        "valid_mask_sum": 229,
+        "prompt_len": 230,
+        "prompt_ids_head": [
+          151647,
+          151648,
+          151646
+        ],
+        "prompt_ids_tail": [
+          151649,
+          5501,
+          1356,
+          3114,
+          419,
+          7699,
+          13,
+          151650
+        ],
+        "prompt_str_prefix": "<|user|><|begin_of_audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|audio|><|au",
+        "cache_precision": "fp32",
+        "audio_precision": "fp32"
+      },
+      "transformers": {
+        "prompt_len": 230,
+        "audio_token_count": 220,
+        "encoder_output_len": 229,
+        "mel_frames": 1764,
+        "generated_tokens": 55,
+        "hit_eos": true
+      }
+    }
+  ]
+}

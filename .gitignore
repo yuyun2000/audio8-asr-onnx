@@ -1,0 +1,10 @@
+downloaded/
+exported/
+models/
+wavs/
+hf_code_lead/
+.cache/
+*.onnx
+*.safetensors
+*.npy
+*.npz
