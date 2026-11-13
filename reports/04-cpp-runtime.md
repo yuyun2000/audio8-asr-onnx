@@ -7,7 +7,9 @@
 | 项 | 结果 |
 |---|---|
 | 集成方式 | 新增模型类型 `audio8-asr`（config + model + recognizer impl），复用已有的 Whisper 特征提取、`QwenAsrTokenizer` |
-| 编译 | macOS 上 `cmake --build --target sherpa-onnx-offline` 通过（onnxruntime 1.28.2 osx-arm64 静态库） |
+| 编译 | macOS 上 C++（`sherpa-onnx-offline`）与 Python 绑定（`_sherpa_onnx`）都编译通过（onnxruntime 1.28.2 osx-arm64） |
+| Python API | `OfflineRecognizer.from_audio8_asr(...)` 实测输出与 C++ 一致 |
+| 风格 | 新文件 + 改动文件 `cpplint 2.0.2` 零告警 |
 | 精度 | 5 条测试音频，C++ 输出与 transformers（修正后）**逐字一致（CER 0.000）** |
 | 速度 | RTF 0.075–0.204（10 s 音频约 1.0–1.1 s） |
 
@@ -69,6 +71,14 @@ wav --(sherpa WhisperTag, 128 mel)--> frames
 | 4 | 17.64 s | 嗯，On time 就准时，in time 是及时交。他总是准时交他的作业。… |
 
 耗时（4 线程）：1.06 / 0.98 / 0.96 / 1.05 / 1.32 s，RTF 0.075–0.204。
+
+Python API 同样验证过：
+
+```python
+recognizer = sherpa_onnx.OfflineRecognizer.from_audio8_asr(
+    encoder="encoder.onnx", decoder="decoder.onnx", tokenizer="downloaded/hf")
+# -> 昨天是 Monday。Today is礼拜二。The day after tomorrow，是星期三。
+```
 
 ## 本机编译方法（macOS）
 
