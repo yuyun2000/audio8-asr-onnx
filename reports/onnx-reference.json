@@ -24,7 +24,7 @@
   ],
   "audio_tokens": 125,
   "prompt_len": 135,
-  "seconds": 0.961
+  "seconds": 0.955
  },
  {
   "wav": "1.wav",
@@ -48,7 +48,7 @@
   ],
   "audio_tokens": 63,
   "prompt_len": 73,
-  "seconds": 0.892
+  "seconds": 0.877
  },
  {
   "wav": "2.wav",
@@ -69,7 +69,7 @@
   ],
   "audio_tokens": 58,
   "prompt_len": 68,
-  "seconds": 0.871
+  "seconds": 0.852
  },
  {
   "wav": "3.wav",
@@ -100,7 +100,7 @@
   ],
   "audio_tokens": 110,
   "prompt_len": 120,
-  "seconds": 0.95
+  "seconds": 0.922
  },
  {
   "wav": "4.wav",
@@ -163,6 +163,6 @@
   ],
   "audio_tokens": 220,
   "prompt_len": 230,
-  "seconds": 1.154
+  "seconds": 1.122
  }
 ]

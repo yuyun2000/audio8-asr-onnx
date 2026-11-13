@@ -95,3 +95,18 @@ DYLD_FALLBACK_LIBRARY_PATH=/usr/lib ./build/bin/sherpa-onnx-offline ...
 
 - AX 平台：模型是纯 ONNX（静态 shape：30 s 窗口、512 cache 槽），到公司后可走 Pulsar2 转 AXMODEL；encoder 是 CNN+attention（14 头），decoder 是 8 层 Qwen2，都有成熟量化方案。
 - 长音频：需要 VAD 切分（模型只有 30 s 窗口）。
+
+## Review 反馈处理（2026-11-13 晚）
+
+| 意见 | 处理 |
+|---|---|
+| 作者：加一个 GitHub Actions 转换 job | 新增 `.github/workflows/export-audio8-asr-onnx.yaml`：装 torch/transformers → 下载 checkpoint → 导出 fp32+int8 → 下载测试音频跑 `run-onnx.py` 校验 → 上传 artifact，可选推 HF |
+| 作者：加 `sherpa-onnx-offline` / 示例的 CI 测试 | 新增 `cxx-api-examples/audio8-asr-cxx-api.cc` + `c-api-examples/audio8-asr-c-api.c`，并在 `cxx-api.yaml` / `c-api.yaml` 各加一个 `Test Audio8 ASR` 步骤（下载 int8 模型 + tokenizer + 测试音频，编译运行），顺带补齐 C API / C++ API 的 `audio8_asr` 配置结构 |
+| CodeRabbit：导出脚本没有真正恢复位置表 | `export-onnx.py` 现在在 trace 前调用 `restore_sinusoid_positions()` |
+| CodeRabbit：`run-onnx.py` 不校验 wav 格式 | 支持任意采样率（线性重采样到 16 kHz）、多声道取均值、按 30 s 截断 |
+| CodeRabbit：token 计数未截断 / cache 用常量 | 截断到 480000 样本；`max_total_len` 从 `metadata.json` 读取；生成步数受剩余槽位限制；报告目录自动创建 |
+| CodeRabbit：block token 会让解码卡住 | 采样到 block id 时**不丢弃这一步**：文本里不输出，但仍喂回 decoder 推进状态 |
+| CodeRabbit：没有 ITN | 结果出来后调用 `ApplyInverseTextNormalization()`，与其它离线识别器一致 |
+
+int8 量化（`quantize_dynamic`，QUInt8 per-channel）：encoder 222 MB、decoder 183 MB，
+Python runtime 文本与 fp32 完全一致；C++ 下 RTF 从 0.106 降到 **0.047**（10 s 音频 0.47 s）。
