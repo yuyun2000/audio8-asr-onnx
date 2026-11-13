@@ -698,3 +698,148 @@ Test audio: `csukuangfj/2026-06-03` (ModelScope, `0.wav`…`4.wav`, en+zh mixed)
 | `ref/onnx_io.json` | full IO/op table for the four graphs |
 | `ref/tensors/*.npz` | mel, prompt ids, inputs_embeds, audio embeddings, hidden, mask, audio |
 | `ref/tensors_hf/*.npz` | transformers mel / prompt ids / generated ids |
+| `ref/hf_runs_leadwavs.json` | transformers run on `audio8/wavs/{0..4}.wav` (patched, §15) |
+| `ref/transcripts_leadwavs.json` | official bundle run on the same 5 wavs (§15) |
+| `ref/hf_runs_nopos.json` | transformers **without** the pos-emb patch (counter-example, §15) |
+
+---
+
+## 14. Cross-check of the lead's export choices
+
+The lead's design decisions are checked against what the official fp32 bundle actually does. Each item states
+(i) what the reference does, (ii) whether the lead's choice matches, (iii) the failure mode if it silently drifts.
+
+### 14.a "Encoder always processes the full 3000-frame window, rows masked by `num_rows`"
+
+**Matches the reference — this is exactly what the official graph does.** `audio_hidden.onnx` reshapes the input
+statically: `Gather(audios,0) → Slice(0:3000) → Transpose → Reshape [30,100,128]` (`Constant_7 = [30,100,128]`) →
+`Reshape [390,-1]` (`Constant_20 = [390,-1]`). All 30 chunks are convolved and encoded regardless of the true
+length; `audio_feature_lengths` only feeds the mask branch
+(`Clip(lengths,1,3000) → … → Less(arange(390), num_rows) → Cast → audio_valid_mask`).
+
+**Risks to guard (in order of likelihood):**
+
+1. **`num_rows` must be the *encoder* count, not the prompt count.** They differ by design:
+   `E = (T//100)*13 + ceil((T%100)/8)` with `T = mel_frames = floor(L/160)`, versus
+   `N = max(1, ((T+1)//2)//4)`. Measured on `wavs/0..4.wav`: **131 vs 125, 67 vs 63, 61 vs 58, 115 vs 110,
+   229 vs 220** (`E_valid` vs `N`); on the extra test wavs 93 vs 89 (en), 73 vs 70 (zh), 217 vs 209.
+   Masking by `N` silently drops the tail of every utterance (it still "works" — CER grows slightly);
+   masking by 390 with a zero tail feeds garbage rows. Recommend an explicit assert
+   `E_valid == (T//100)*13 + ceil((T%100)/8)` and `N == ((T+1)//2)//4` at runtime.
+   *This is the single highest-risk item in the whole port.*
+2. **Rows `>= num_rows` are not zero** in the official graph (real arithmetic on zero-padded chunks;
+   `ref/parity.json → invalid_rows_are_zero: false`). Harmless if the consumer slices `hidden[:num_rows]`
+   (the valid rows are a contiguous prefix — verified). But if a C++ side reuses a persistent output buffer across
+   calls, stale rows from a *previous, longer* utterance can leak into `hidden[:num_rows]` if the producer only
+   writes the current rows. Either zero the tail or always slice by the freshly computed `num_rows`.
+3. **Convolution must stay chunk-local (100 frames).** A single conv over all 3000 frames yields
+   `3000→1500→750→375` positions, not `30×13 = 390`. Any "optimisation" that concatenates chunks before the conv
+   changes both the token count and the receptive field.
+4. **The mel tail must be exact zeros** after the `mel_frames` real frames, and the graph's slice is `0:3000`
+   unconditionally — the caller owns the padding (official: `np.pad(..., 0)`).
+5. **The 104-token attention window is derived from the *padded* layout**, not from the true length:
+   `window = 13 * (n_window_infer // (n_window*2)) = 13 * 8 = 104`, and blocks come from a cumsum over the
+   per-chunk token counts, giving `[104,104,104,78]` at 30 s. If the export instead builds blocks from the true
+   valid length, utterances with <104 tokens (most of them) are unaffected — the bug only shows up on longer audio
+   (measured: 229- and 217-token cases still match, so the current export is correct).
+
+### 14.b "Decoder applies the projector and injects audio at `<|audio|>` positions with cumsum/gather"
+
+**Order is the thing to verify.** The reference order is:
+
+```
+audio_hidden[390,1024] --slice[:N_rows]--> [E,1024]
+   --adaptive_avg_pool1d--> [N,1024]          # pool BEFORE the projector
+   --LayerNorm(1024, eps 1e-5)--> --Linear(1024->512)--> [N,512]
+   --scatter into inputs_embeds at the positions where input_ids == 151646--> [P,512]
+```
+
+* The projector lives **outside** `audio_hidden.onnx` exactly because it is applied *after* pooling
+  (`metadata.json:95-98` → `weights/audio_projector.npz`; `asr_onnx_runtime.py:288-298`).
+  **Risk:** projecting first and pooling afterwards is *not* equivalent (pooling does not commute with a linear
+  map). If the export folded `LayerNorm+Linear` into the audio graph to "simplify", the result must still be
+  computed after pooling — LN is per-token so it commutes, but `Linear` does not.
+* Pooling indices must be `start = floor(i*E/N)`, `end = ceil((i+1)*E/N)` (PyTorch `adaptive_avg_pool1d`);
+  a naive fixed-stride pool differs whenever `E % N != 0` (which is almost always — e.g. 93→89, 229→220).
+* cumsum/gather is safe **for this prompt** because the `<|audio|>` run is contiguous and immediately follows
+  `<|begin_of_audio|>`, and occurrences are exactly `N`. Two caveats: (i) the runtime asserts
+  `#(ids == 151646) == N` (`asr_onnx_runtime.py:305-308`) — worth copying; (ii) a future multi-audio prompt would
+  have two contiguous runs and a single global cumsum would mis-slice, so keying on the `<|begin_of_audio|>`
+  boundaries is the robust form.
+* Injection must happen **only at prefill** (`past_len == 0`); the reference injects nothing once the cache is
+  non-empty (`modeling_arkasr.py:258`). Injecting on every step is a classic silent corruption.
+
+### 14.c "KV cache `[1, 8, 512, 64]` with per-step deltas"
+
+**Matches the reference decode graph exactly** (`lm_cache_decode.onnx`: `cache_key_i/value_i [1,8,512,64]` in,
+`key_delta_i/value_delta_i [1,8,1,64]` out, `cache_position [1]`, `attention_mask [1,512]`).
+
+**Risks / invariants:**
+
+1. The graph reads the **full 512-wide** buffer every step and selects with `attention_mask`. The mask must be
+   ones on `[0, position]` and zeros beyond, and `cache_position` must be the **absolute** position
+   (`asr_onnx_runtime.py:580-586`). Passing a grow-only slice instead of the padded buffer is a shape error;
+   passing an all-ones mask attends to stale slots and degrades silently.
+2. Deltas must be written back at `[:, :, position:position+1, :]` after each step — the graph does **not** update
+   the cache in place.
+3. **RoPE must use the absolute position with θ = 1e6.** Because RoPE is *relative*, a constant offset is invisible
+   (measured: shifting every position by +64 changes logits by only 1.2–1.6e-5), so a bug that resets positions
+   per step or omits RoPE entirely will look "almost right" on short utterances. Recommended regression test:
+   run the same prefix through (i) one prefill pass and (ii) N single-token decode steps and require
+   `max_abs_diff ≈ 0` (the official pair is bit-exact: `ref/parity.json → lm_logits_vs_prefill = 0.0`,
+   decode-vs-prefill ≤ 1e-5 with identical top-1).
+4. `max_total_len = 512` bounds `prompt_len + max_new_tokens` (`asr_onnx_runtime.py:627-632`).
+   At 30 s the prompt is already **385** tokens → only **127** new tokens fit; the official default of 128
+   *raises* (measured). Either export a larger cache or clamp `max_new_tokens = 512 - prompt_len`.
+5. The prefill graph has **no** `attention_mask` input (implicit causal over `cache_position`); only the decode
+   graph takes one. Do not feed the same mask to both.
+6. Cache dtype: the official bundle is fp32. If the export uses fp16/bf16 caches, re-verify against
+   `ref/parity.json` numbers before trusting CER.
+
+**Bottom line:** (a), (b), (c) are all consistent with the reference. The two things I would still harden are the
+`E_valid` vs `N` distinction (§14.a.1) and the pool→project order (§14.b), because both can be wrong while still
+producing fluent, *nearly* correct transcripts.
+
+---
+
+## 15. Transcript cross-check against the lead's references
+
+`audio8/wavs/{0,1,2,3,4}.wav` are **byte-identical** (SHA-256) to my `downloaded/wavs/0..4.wav`
+(the `csukuangfj/2026-06-03` set), so the same audio was used on both sides.
+
+Runs compared (all greedy, `max_new_tokens=128`):
+
+* `ref/hf_runs_leadwavs.json` — my transformers run **with** the two load patches (`ref/run_transformers.py`)
+* `ref/transcripts_leadwavs.json` — official fp32 ONNX bundle (`OnnxCacheAsrEngine`)
+* `reports/hf-reference-unpadded.json` — lead's transformers reference
+* `reports/onnx-reference.json` — lead's ONNX export
+
+| wav | my HF ids == lead HF ids | my HF text == lead HF text | my bundle text == lead ONNX text | my bundle text == my HF text | tokens (HF / bundle) |
+|---|---|---|---|---|---|
+| 0.wav | ✅ (19 ids, bit-exact) | ✅ | ✅ | ✅ | 19 / 18 |
+| 1.wav | ✅ (16) | ✅ | ✅ | ✅ | 16 / 15 |
+| 2.wav | ✅ (13) | ✅ | ✅ | ✅ | 13 / 12 |
+| 3.wav | ✅ (23) | ✅ | ✅ | ✅ | 23 / 22 |
+| 4.wav | ✅ (55) | ✅ | ✅ | ✅ | 55 / 54 |
+
+**Zero differences in text and zero differences in generated ids on all five wavs** — the lead's export and their
+transformers reference agree with the official bundle and with my patched reference.
+
+**Token-count convention (not a discrepancy):** the bundle reports one token fewer than HF on every wav because the
+runtime tests the stop token *before* appending it (`asr_onnx_runtime.py:414-417`), while `generate()` includes the
+EOS id in its output. `bundle_tokens + 1 == hf_tokens` exactly, and the EOS is `151645` in all cases.
+Anyone comparing token counts across the two paths must apply that +1.
+
+**One caveat worth recording.** An earlier revision of `reports/hf-reference-unpadded.json` read
+`… The day after tomorrow日是星期三。` (and `与always，os…`, `就是平凡的，就是静下来…`) for wavs 0/1/2. I reproduced that
+exact text — character for character — by running the transformers path **without** restoring the non-persistent
+sinusoidal positional buffer (`ref/hf_runs_nopos.json`, `--no-restore-pos-emb`). In other words that revision
+corresponded to an HF reference missing the audio-tower positional embedding; it is **not** what the released model
+computes. The current revision matches my patched run bit-for-bit, so the current numbers are the trustworthy ones.
+Recommended guard for any future re-run: assert
+`model.audio_encoder.positional_embedding.positional_embedding.abs().max() > 0` and
+`model.language_model.lm_head.weight.data_ptr() == model.language_model.model.embed_tokens.weight.data_ptr()`
+right after `from_pretrained` — both failures are silent in transformers 5.x.
+
+Extra artifacts from this cross-check: `ref/hf_runs_leadwavs.json`, `ref/transcripts_leadwavs.json`,
+`ref/hf_runs_nopos.json`.

@@ -15,6 +15,13 @@
 | `reports/04-cpp-runtime.md` | C++ 集成、踩坑与实机数字 |
 | `ref/` | 官方 ONNX runtime 对照（transcripts、parity、张量 dump） |
 
+| 资源 | 地址 |
+|---|---|
+| 上游 PR | <https://github.com/k2-fsa/sherpa-onnx/pull/4198> |
+| ONNX 模型（encoder 839 MB + decoder 694 MB + tokenizer） | <https://huggingface.co/yunyu1258/audio8-asr-onnx> |
+| 模型权重 | <https://huggingface.co/Edge0/Audio8-ASR-0.1B> |
+| 官方 ONNX runtime 参考实现 | <https://huggingface.co/Edge0/Audio8-ASR-0.1B-onnx-runtime> |
+
 ## 快速开始
 
 ```bash
